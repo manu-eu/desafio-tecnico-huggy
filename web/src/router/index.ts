@@ -13,6 +13,12 @@ const routes: Array<RouteRecordRaw> = [
         path: '/contacts',
         name: 'Contacts',
         component: Contacts
+    },
+    {
+        path: '/:catchAll(.*)',
+        redirect: to => {
+            return { name: 'Login' }
+        },
     }
 ]
 
