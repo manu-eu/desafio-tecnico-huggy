@@ -50,9 +50,24 @@
 
 body {
 	width: 100vw;
-	height: 100vh;
+	max-width: 100%;
 
+	background: var(--mine-shaft-10);
 	font-family: "Roboto", sans-serif;
+}
+
+.container {
+	margin: auto;
+	width: min(100%, 960px);
+}
+
+/* typografia */
+
+.headline-1 {
+	font-size: 1.5rem;
+	font-weight: 400;
+	line-height: 2rem;
+	letter-spacing: 0;
 }
 
 /* botão */
@@ -62,7 +77,8 @@ body {
 	border-radius: 0.5rem;
 
 	display: flex;
-	place-items: center center;
+	align-items: center;
+	justify-content: center;
 
 	outline: none;
 	border: none;
@@ -73,12 +89,17 @@ body {
 	font-weight: 500;
 	font-size: 0.875rem;
 	line-height: 1.125rem;
+	letter-spacing: 1.25px;
 
 	user-select: none; /* supported by Chrome and Opera */
 	-webkit-user-select: none; /* Safari */
 	-khtml-user-select: none; /* Konqueror HTML */
 	-moz-user-select: none; /* Firefox */
 	-ms-user-select: none; /* Internet Explorer/Edge */
+}
+
+.button span {
+	vertical-align: middle;
 }
 
 .button:disabled {
