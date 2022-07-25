@@ -3,9 +3,7 @@
 </script>
 
 <template>
-<main class="container">
-    <router-view />
-</main>
+Login
 </template>
 
 <style scoped>
