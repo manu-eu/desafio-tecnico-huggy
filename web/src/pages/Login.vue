@@ -1,12 +1,20 @@
 <script setup lang="ts">
-import VButton from '../components/Button.vue';
+import { useRouter } from 'vue-router';
+import Button from '../components/Button.vue';
+import Title from '../components/Title.vue';
+
+const router = useRouter();
+
+const goToContact = () => {
+    router.push({ name: 'Contacts' });
+};
 
 </script>
 
 <template>
     <div class="login">
-        <h1 class="headline-1">Login</h1>
-        <v-button title="Fazer login com a Huggy"/>
+        <Title variant="headline-1">Login</Title>
+        <Button @click="goToContact()" title="Fazer login com a Huggy"/>
     </div>
 </template>
 
@@ -16,10 +24,6 @@ import VButton from '../components/Button.vue';
         align-items: center;
         justify-content: center;
         flex-direction: column;
-        height: 100vh;
-    }
-
-    .login h1 ~ .button {
-        margin-top: 1rem;
+        height: calc(100vh - 4rem);
     }
 </style>
