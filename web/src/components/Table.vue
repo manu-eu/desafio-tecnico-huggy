@@ -2,7 +2,14 @@
     <table class="table">
         <thead class="table-header">
             <th v-for="header in props.headers">
-                {{ header }}
+                <div @click="updateSort(header)" class="table-header-cell">
+                    {{ header.label }}
+                    <Icon
+                        v-if="state.sortBy === header.name && header.sortable !== false"
+                        class="table-order-icon"
+                        :icon="state.sortDirection === 'asc' ? 'north' : 'south'"
+                    />
+                </div>
             </th>
         </thead>
         <tbody class="table-body">
@@ -12,12 +19,51 @@
 </template>
 
 <script setup lang="ts">
+import { reactive, watch } from 'vue';
+
+import Icon from './Icon.vue';
+
+export interface TableHeaderDefinition {
+    label: string;
+    name: string;
+    sortable?: boolean;
+}
 
 export interface TableProps {
-    headers: Array<string>;
+    headers: TableHeaderDefinition[];
+    sortBy: string;
+    sortDirection: 'asc' | 'desc';
+}
+
+export interface TableEvents {
+    (e: 'sort', sortDefinition: {name: string, direction: 'asc' | 'desc'}): void;
 }
 
 const props = defineProps<TableProps>()
+const emit = defineEmits<TableEvents>()
+
+const state = reactive({
+    sortBy: props.sortBy || (props.headers [0]).name,
+    sortDirection: props.sortDirection || 'desc',
+});
+
+const updateSort = (header: TableHeaderDefinition) => {
+    if (header.sortable === false) {
+        return;
+    } else if (state.sortBy === header.name) {
+        state.sortDirection = state.sortDirection === 'asc' ? 'desc' : 'asc';
+    } else {
+        state.sortBy = header.name;
+        state.sortDirection = 'desc';
+    }
+}
+
+watch(state, (newState) => {
+    emit('sort', {
+        name: newState.sortBy,
+        direction: newState.sortDirection,
+    });
+})
 
 </script>
 
@@ -42,16 +88,25 @@ const props = defineProps<TableProps>()
 
             padding: 0.875rem 0;
 
-            .table-order-icon {
-                margin-right: 0.5rem;
-            }
-
             &:first-child {
                 padding-left: 1rem;
             }
 
             &:last-child {
                 padding-right: 1rem;
+            }
+
+            .table-header-cell {
+                display: flex;
+                align-items: center;
+                cursor: pointer;
+                width: fit-content;
+                .table-order-icon {
+                    margin-left: 0.25rem;
+                    height: 1rem;
+                    width: 1rem;
+                    fill: var(--mine-shaft-400);
+                }
             }
         }
     }
