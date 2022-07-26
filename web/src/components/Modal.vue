@@ -1,0 +1,72 @@
+<template>
+    <Teleport to="body">
+        <div class="modal">
+            <div class="modal-content">
+                <div v-if="hasHeader" class="modal-content-header">
+                    <slot name="header"></slot>
+                </div>
+                <div class="modal-content-body">
+                    <slot></slot>
+                </div>
+                <div v-if="hasFooter" class="modal-content-footer">
+                    <slot name="footer"></slot>
+                </div>
+            </div>
+        </div>
+    </Teleport>
+</template>
+
+<script setup lang="ts">
+import { onMounted, onUnmounted, computed, useSlots } from 'vue';
+
+const slots = useSlots();
+
+const hasHeader = computed(() => !!slots.header && slots.header().length > 0)
+const hasFooter = computed(() => !!slots.footer && slots.footer().length > 0)
+
+onMounted(() => {
+    document.body.style.overflow = 'hidden';
+});
+
+onUnmounted(() => {
+    document.body.removeAttribute('style');
+});
+
+</script>
+
+<style scoped lang="scss">
+    .modal {
+        background: rgba(0, 0, 0, 0.35);
+        height: 100vh;
+        width: 100vw;
+
+        position: fixed;
+        top: 0;
+        left: 0;
+
+        .modal-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: min(90%, 610px);
+            background: #ffffff;
+            border-radius: 0.75rem;
+
+            .modal-content-header {
+                padding: 1.5rem;
+                border-bottom: 1px solid var(--mine-shaft-30);
+            }
+
+            .modal-content-body {
+                padding: 1.5rem;
+            }
+
+            .modal-content-footer {
+                border-top: 1px solid var(--mine-shaft-30);
+                padding: 1rem;
+            }
+
+        }
+    }
+</style>
