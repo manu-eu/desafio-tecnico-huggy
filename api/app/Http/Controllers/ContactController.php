@@ -10,7 +10,21 @@ class ContactController extends Controller
 {
     public function index()
     {
-        return Contact::paginate();
+        $search = request('search') ?? '';
+        $orderBy = request('sortBy') ?? 'name';
+        $orderDir = request('sortDir') ?? 'asc';
+
+        $contacts = Contact::search($search)->get();
+
+        if($orderDir == 'asc') {
+            return $contacts->sortBy($orderBy)->values();
+        }
+
+        if($orderDir == 'desc') {
+            return $contacts->sortByDesc($orderBy)->values();
+        }
+
+        return $contacts;
     }
 
     public function store(StoreContactRequest $request)
