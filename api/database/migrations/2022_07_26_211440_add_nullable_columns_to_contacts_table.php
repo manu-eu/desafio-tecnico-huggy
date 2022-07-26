@@ -29,7 +29,10 @@ return new class extends Migration
     public function down()
     {
         Schema::table('contacts', function (Blueprint $table) {
-            //
+            $table->string('landline')->change();
+            $table->string('address')->change();
+            $table->string('district')->change();
+            $table->string('state')->change();
         });
     }
 };
