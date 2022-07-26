@@ -19,7 +19,7 @@ class Contact extends Model
         'address',
         'district',
         'state',
-        'user_id',
+        'avatar'
     ];
 
     protected $guarded = [
