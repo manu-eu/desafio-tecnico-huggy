@@ -1,3 +1,25 @@
+<script setup lang="ts">
+    import { computed } from 'vue';
+
+    export interface AvatarProps {
+        imageSrc?: string,
+        name: string,
+    }
+
+    const props = defineProps<AvatarProps>()
+
+    const initials = computed(() => {
+        if(props.imageSrc && props.imageSrc.length > 0) {
+            return ''
+        }
+
+        const names = props.name.trim().split(' ')
+        const initials = names.map(name => name[0]).join('')
+
+        return initials.substring(0, 2);
+    })
+</script>
+
 <template>
     <figure
         :style="{
@@ -5,40 +27,10 @@
         }"
         class="avatar"
     >
-        {{ props.letters }}
+        {{ initials }}
     </figure>
 </template>
 
-<script setup lang="ts">
-// const haha = 'https://static3.bigstockphoto.com/2/9/2/large1500/292115365.jpg';
-export interface AvatarProps {
-    imageSrc?: string,
-    letters?: string,
-}
+<style scoped>
 
-const props = defineProps<AvatarProps>()
-
-</script>
-
-<style scoped lang="scss">
-    .avatar {
-        width: 2rem;
-        height: 2rem;
-        border-radius: 50%;
-
-        background-color: var(--persian-blue-10);
-        background-size: cover;
-        background-position: center;
-        background-repeat: no-repeat;
-
-        display: flex;
-        justify-content: center;
-        align-items: center;
-
-        color: var(--persian-blue-800);
-        font-size: 0.875rem;
-        line-height: 1.125rem;
-        font-weight: 500;
-        letter-spacing: 0.1px;
-    }
 </style>

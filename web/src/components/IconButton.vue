@@ -1,25 +1,16 @@
 <script setup lang="ts">
     import Icon, { IconType } from './Icon.vue';
 
-    type ButtonColors = 'primary' | 'secondary' | 'danger'
-
     interface ButtonProps {
-        color?: ButtonColors;
         icon?: IconType;
-        title?: string;
     }
 
     const props = defineProps<ButtonProps>();
 </script>
 
 <template>
-    <button
-        class="button button-text"
-        :class="[props.color || 'primary']"
-    >
+    <button class="button icon-button">
         <Icon class="icon" v-if="props.icon" :icon="props.icon"/>
-        {{props.title}}
-        <slot></slot>
     </button>
 </template>
 
