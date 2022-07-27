@@ -8,14 +8,14 @@
 				type="text"
 				class="input"
 				:class="{
-					'error': hasError,
+					'error': !!errorMessage,
                     'has-icon': hasIcon,
 				}"
 				:disabled="props.disabled"
-				:name="props.name"
 				:id="`field_${props.name}`"
-				:value="props.value"
+				v-model="value"
 				:placeholder="props.placeholder"
+				:rules="props.rules"
 			/>
             <Icon
                 v-if="hasIcon"
@@ -26,34 +26,39 @@
                 :icon="props.icon || 'none'"
             />
 		</div>
-		<small v-if="hasError" class="input-error">
-			{{ props.errorMessage }}
+		<small v-if="!!errorMessage" class="input-error">
+			{{ errorMessage }}
 		</small>
 	</fieldset>
 </template>
 
 <script setup lang="ts">
-import { computed } from "vue";
+import { useField } from 'vee-validate';
+import { computed, toRef } from "vue";
 import Icon, { IconType } from "./Icon.vue";
+
+
 
 export interface InputProps {
 	value?: string;
 	name: string;
 	label?: string;
     icon?: IconType;
-	hasError?: boolean;
-	errorMessage?: string;
 	placeholder?: string;
 	disabled?: boolean;
+	rules?: string;
 }
 
 const props = defineProps<InputProps>();
 
-const hasError = computed(
-	() =>
-		(!!props.hasError && props.hasError === true) ||
-		(!!props.errorMessage && props.errorMessage.length > 0)
-);
+const nameRef = toRef(props, 'name');
+const { errorMessage, value } = useField(nameRef, '', {
+	validateOnMount: false,
+	validateOnValueUpdate: true,
+});
+
+//  = props.value || value;
+
 const hasLabel = computed(() => !!props.label && props.label.length > 0);
 const hasIcon = computed(() => !!props.icon && props.icon.length > 0);
 </script>
@@ -83,6 +88,7 @@ const hasIcon = computed(() => !!props.icon && props.icon.length > 0);
 }
 
 .input-group {
+	width: 100%;
     position: relative;
     .input-icon {
         position: absolute;
@@ -103,6 +109,7 @@ const hasIcon = computed(() => !!props.icon && props.icon.length > 0);
 }
 
 .input {
+	width: 100%;
 	background: var(--mine-shaft-10);
 	border: 1px solid var(--mine-shaft-30);
 	border-radius: 0.5rem;

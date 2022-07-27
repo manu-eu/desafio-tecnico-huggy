@@ -2,13 +2,8 @@
     <table class="table">
         <thead class="table-header">
             <th v-for="header in props.headers">
-                <div @click="updateSort(header)" class="table-header-cell">
-                    {{ header.label }}
-                    <Icon
-                        v-if="state.sortBy === header.name && header.sortable !== false"
-                        class="table-order-icon"
-                        :icon="state.sortDirection === 'asc' ? 'north' : 'south'"
-                    />
+                <div class="table-header-cell">
+                    {{ header }}
                 </div>
             </th>
         </thead>
@@ -30,7 +25,7 @@ export interface TableHeaderDefinition {
 }
 
 export interface TableProps {
-    headers: TableHeaderDefinition[];
+    headers: string[];
     sortBy: string;
     sortDirection: 'asc' | 'desc';
 }
@@ -42,28 +37,28 @@ export interface TableEvents {
 const props = defineProps<TableProps>()
 const emit = defineEmits<TableEvents>()
 
-const state = reactive({
-    sortBy: props.sortBy || (props.headers [0]).name,
-    sortDirection: props.sortDirection || 'desc',
-});
+// const state = reactive({
+//     sortBy: props.sortBy || (props.headers [0]).name,
+//     sortDirection: props.sortDirection || 'desc',
+// });
 
-const updateSort = (header: TableHeaderDefinition) => {
-    if (header.sortable === false) {
-        return;
-    } else if (state.sortBy === header.name) {
-        state.sortDirection = state.sortDirection === 'asc' ? 'desc' : 'asc';
-    } else {
-        state.sortBy = header.name;
-        state.sortDirection = 'desc';
-    }
-}
+// const updateSort = (header: TableHeaderDefinition) => {
+//     if (header.sortable === false) {
+//         return;
+//     } else if (state.sortBy === header.name) {
+//         state.sortDirection = state.sortDirection === 'asc' ? 'desc' : 'asc';
+//     } else {
+//         state.sortBy = header.name;
+//         state.sortDirection = 'desc';
+//     }
+// }
 
-watch(state, (newState) => {
-    emit('sort', {
-        name: newState.sortBy,
-        direction: newState.sortDirection,
-    });
-})
+// watch(state, (newState) => {
+//     emit('sort', {
+//         name: newState.sortBy,
+//         direction: newState.sortDirection,
+//     });
+// })
 
 </script>
 
@@ -71,6 +66,7 @@ watch(state, (newState) => {
 .table {
     width: 100%;
     padding: 0 0.5rem;
+    margin-bottom: 0.5rem;
 
     border-collapse: separate;
     border-spacing: 0 0.25rem;
