@@ -31,4 +31,9 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
+    'huggy' => [
+        'client_id' => env('HUGGY_CLIENT_ID'),
+        'client_secret' => env('HUGGY_CLIENT_SECRET'),
+        'redirect' => env('HUGGY_REDIRECT'),
+    ]
 ];
