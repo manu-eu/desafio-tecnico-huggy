@@ -41,11 +41,32 @@ onUnmounted(() => {
         height: 100vh;
         width: 100vw;
 
+        animation: modal-fade 200ms ease-out forwards;
+
+        @keyframes modal-fade {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
         position: fixed;
         top: 0;
         left: 0;
 
         .modal-content {
+            animation: modal-slide-up 200ms ease-out forwards;
+            @keyframes modal-slide-up {
+                from {
+                    transform: translate(-50%, -60%);
+                }
+                to {
+                    transform: translate(-50%, -50%);
+                }
+            }
+
             position: absolute;
             top: 50%;
             left: 50%;
