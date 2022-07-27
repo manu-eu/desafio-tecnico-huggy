@@ -1,0 +1,70 @@
+
+@mixin case-sentence {
+    &::first-letter{
+        text-transform: uppercase;
+    }
+}
+
+.headline-1 {
+    font-size: 1.5rem;
+    font-weight: 400;
+    line-height: 2rem;
+    word-spacing: 0;
+    @include case-sentence;
+}
+
+.headline-2 {
+    font-size: 1.25rem;
+    font-weight: 500;
+    line-height: 1.75rem;
+    word-spacing: 0.15px;
+    @include case-sentence;
+}
+
+.subtitle-1 {
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5rem;
+    word-spacing: 0.15px;
+    @include case-sentence;
+}
+
+.subtitle-2 {
+    font-size: 0.875rem;
+    font-weight: 500;
+    line-height: 1.125rem;
+    word-spacing: 0.1px;
+    @include case-sentence;
+}
+
+.body-1 {
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5rem;
+    word-spacing: 0.5px;
+    @include case-sentence;
+}
+
+.body-2 {
+    font-size: 0.875rem;
+    font-weight: 400;
+    line-height: 1.125rem;
+    word-spacing: 0.25px;
+    @include case-sentence;
+}
+
+.button-text {
+    font-size: 0.875rem;
+    font-weight: 500;
+    line-height: 1.125rem;
+    word-spacing: 1.25px;
+    @include case-sentence;
+}
+
+.caption {
+    font-size: 0.75rem;
+    font-weight: 400;
+    line-height: 1rem;
+    word-spacing: 0.4px;
+    @include case-sentence;
+}

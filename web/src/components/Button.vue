@@ -1,14 +1,6 @@
-<template>
-    <button
-        class="button"
-        :class="[props.color || 'primary']"
-    >
-        <icon class="icon" v-if="props.icon" :icon="props.icon"/>
-        {{props.title}}
-    </button>
-</template>
 <script setup lang="ts">
-import Icon, { IconType } from './Icon.vue';
+    import Icon, { IconType } from './Icon.vue';
+
     type ButtonColors = 'primary' | 'secondary' | 'danger'
 
     interface ButtonProps {
@@ -19,8 +11,18 @@ import Icon, { IconType } from './Icon.vue';
 
     const props = defineProps<ButtonProps>();
 </script>
+
+<template>
+    <button
+        class="button button-text"
+        :class="[props.color || 'primary']"
+    >
+        <Icon class="button-icon" v-if="props.icon" :icon="props.icon"/>
+        {{props.title}}
+        <slot></slot>
+    </button>
+</template>
+
 <style scoped>
-    .icon {
-        margin-right: 0.5rem;
-    }
+
 </style>
