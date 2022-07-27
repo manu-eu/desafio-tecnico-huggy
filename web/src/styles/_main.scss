@@ -1,9 +1,13 @@
 @import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap");
 
-@import "colors.scss";
-@import "reset.scss";
+@import "_reset.scss";
+@import "_colors.scss";
 @import "typography.scss";
 @import "buttons.scss";
+@import "forms.scss";
+@import "table.scss";
+@import "modal.scss";
+@import "utils.scss";
 
 :root {
 	font-size: 100%;
@@ -13,22 +17,64 @@ body {
     color: $mine-shaft-700;
     width: 100vw;
 	max-width: 100%;
-	background: var(--mine-shaft-10);
+	background: $mine-shaft-10;
 	font-family: "Roboto", sans-serif;
 }
 
-.w-150 {
-    width: min(150px, 100%);
+.app-container {
+    margin: auto;
+    width: min(100%, 960px);
+    min-height: 100vh;
+    position: relative;
+    padding: 1.125rem 0;
 }
 
-.w-250 {
-    width: min(250px, 100%);
+.login-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 1.5rem;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
 
-.w-350 {
-    width: min(350px, 100%);
+.page-title {
+    margin-bottom: 1.125rem;
 }
 
-.w-450 {
-    width: min(450px, 100%);
+.page-content {
+    width: 100%;
+    background: #ffffff;
+    border: 1px solid $mine-shaft-30;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
+    border-radius: 1rem;
+    margin-bottom: 2rem;
+}
+
+.page-content-header {
+    padding: 1rem;
+}
+
+.avatar {
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+
+    background-color: $persian-blue-10;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    color: $persian-blue-800;
+    font-size: 0.875rem;
+    line-height: 1.125rem;
+    font-weight: 500;
+    letter-spacing: 0.1px;
 }

@@ -1,0 +1,94 @@
+@import "_colors.scss";
+
+.form {
+    padding: 1.5rem;
+
+    .form-row {
+        display: flex;
+
+        &:not(:last-child) {
+            margin-bottom: 1.5rem;
+        }
+
+        fieldset ~ fieldset {
+            margin-left: 1.5rem;
+        }
+    }
+}
+
+.field-group {
+	border: none;
+	padding: 0;
+	margin: 0;
+
+    .input-label {
+        color: $mine-shaft-700;
+        margin-bottom: 0.25rem;
+    }
+
+    .input-error {
+        color: $alizarin-crimson-500;
+        margin-top: 0.25rem;
+    }
+
+    .input-group {
+        width: 100%;
+        position: relative;
+
+        .input-field {
+            width: 100%;
+            background: $mine-shaft-10;
+            border: 1px solid $mine-shaft-30;
+            border-radius: 0.5rem;
+            padding: 0.5rem 0.75rem;
+
+            outline: none;
+            transition: border-color 200ms ease-out;
+
+            &::placeholder {
+                color: $mine-shaft-80;
+            }
+
+            &:hover {
+                border-color: $mine-shaft-100;
+            }
+
+            &:focus {
+                border-color: $persian-blue-600;
+            }
+
+            &:disabled {
+                border-color: $mine-shaft-30;
+                cursor: not-allowed;
+                &, &::placeholder {
+                    color: $mine-shaft-60;
+                }
+            }
+
+            &.error {
+                border-color: $alizarin-crimson-500;
+            }
+
+            &.has-icon {
+                padding-left: 2.625rem;
+            }
+        }
+
+        .input-icon {
+            position: absolute;
+
+            top: 50%;
+            left: 0.875rem;
+            transform: translateY(-50%);
+
+            height: 1.125rem;
+            width: 1.125rem;
+
+            fill: $mine-shaft-100;
+
+            &.disabled {
+                fill: $mine-shaft-60;
+            }
+        }
+    }
+}

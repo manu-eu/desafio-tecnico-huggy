@@ -1,0 +1,103 @@
+@import "_colors.scss";
+
+.table {
+    width: 100%;
+    padding: 0 0.5rem;
+    margin-bottom: 0.5rem;
+
+    border-collapse: separate;
+    border-spacing: 0 0.25rem;
+
+    thead {
+        color: $mine-shaft-400;
+
+        th {
+            text-align: start;
+            border-bottom: 1px solid $mine-shaft-30;
+            position: relative;
+            padding: 0.875rem 0;
+
+            &:first-child {
+                padding-left: 1rem;
+            }
+
+            &:last-child {
+                padding-right: 1rem;
+            }
+
+            .sort-icon {
+                height: 1rem;
+                width: 1rem;
+                margin-right: 0.25rem;
+
+                position: absolute;
+                top: 50%;
+                transform: translateY(-50%);
+
+                fill: $mine-shaft-400;
+                path {
+                    fill: $mine-shaft-400;
+                }
+            }
+        }
+    }
+
+    tbody tr {
+        transition: background-color 200ms ease-out;
+        outline: none;
+        cursor: pointer;
+
+        &[tabindex="0"]:focus, &[tabindex="0"]:focus-within  {
+            background: $mine-shaft-10;
+        }
+
+        &[tabindex="0"]:focus .table-actions .button.icon-button,
+        &[tabindex="0"]:focus-within .table-actions .button.icon-button,
+        &[tabindex="0"]:hover .table-actions .button.icon-button {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        td {
+            padding: 0.5rem 0;
+
+            &:first-child {
+                padding-left: 1rem;
+                border-radius: 0.5rem 0 0 0.5rem;
+
+            }
+
+            &:last-child {
+                padding-right: 1rem;
+                border-radius: 0 0.5rem 0.5rem 0;
+            }
+        }
+
+        .table-actions {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            flex-direction: row-reverse;
+
+            .button.icon-button {
+                transition: transform 100ms ease-out, opacity 100ms ease-out;
+                opacity: 0;
+
+                .icon {
+                    fill: $mine-shaft-400;
+                }
+
+                &:focus .icon {
+                    fill: $mine-shaft-700;
+                }
+
+                @for $i from 1 through 10 {
+                    &:nth-child(#{$i}n) {
+                        transition-delay: #{$i * 10}ms;
+                        transform: translateX(#{(($i - 1) * 8) + 2}px);
+                    }
+                }
+            }
+        }
+    }
+}
