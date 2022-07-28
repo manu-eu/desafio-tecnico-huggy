@@ -16,6 +16,7 @@ use App\Http\Controllers\ContactController;
 |
 */
 
-// Route::middleware('auth:api')->group(function () {
+Route::middleware('auth:api')->group(function () {
     Route::apiResource('contacts', ContactController::class);
-// });
+});
+
