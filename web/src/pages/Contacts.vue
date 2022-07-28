@@ -1,9 +1,10 @@
 <script setup lang="ts">
-import { computed, onMounted, reactive, ref } from "vue";
+import { computed, onMounted, reactive } from "vue";
 import { useForm } from "vee-validate";
 import * as yup from "yup";
 
-import api, { Contact } from "../services/backend";
+import { Contact } from "../types/contact";
+import { useContactsStore } from "../stores/contacts.store";
 
 import Input from "../components/Input.vue";
 import Button from "../components/Button.vue";
@@ -11,30 +12,33 @@ import Avatar from "../components/Avatar.vue";
 import Icon, { IconType } from "../components/Icon.vue";
 import IconButton from "../components/IconButton.vue";
 import Modal from "../components/Modal.vue";
+import Loading from "../components/Loading.vue";
 
 import emptyBook from '@/assets/empty-book.png';
 
 export interface PageState {
-	contacts: Contact[];
-	currentContact: Contact | null;
+    contact: Contact | null;
 	showContactForm: boolean;
 	showDeleteContactDialog: boolean;
 	showContactInfo: boolean;
-    mounted: boolean;
-    sortBy: keyof Contact;
-    sortOrder: 'asc' | 'desc';
 }
 
 const state: PageState = reactive({
-	contacts: [],
-    currentContact: null,
+    contact: null,
     showContactForm: false,
     showDeleteContactDialog: false,
     showContactInfo: false,
-    mounted: false,
-    sortBy: 'name',
-    sortOrder: 'desc',
 });
+
+const contacts = useContactsStore();
+
+const sortIcon = computed((): IconType => {
+    return contacts.sortOrder === 'asc' ? 'north' : 'south';
+});
+
+const sortIconIsShown = (prop: keyof Contact) => {
+    return contacts.sortBy === prop;
+};
 
 const phoneNumberRegex = /^\(\d{2}\) \d{4,5}-\d{4}$/gi;
 const landLineNumberRegex = /^\d{4}-\d{4}$|^$/gi;
@@ -50,86 +54,72 @@ const schema = yup.object({
     state:    yup.string().nullable().label('Estado'),
 })
 
-const sortIcon = computed((): IconType => {
-    return state.sortOrder === 'asc' ? 'north' : 'south';
-});
-
 const form = useForm<Contact>({
     validationSchema: schema,
 });
 
 const handleFormSubmit = form.handleSubmit(async (contact) => {
     if(contact.id) {
-        await api.updateContact(contact.id, contact);
+        await contacts.updateItem(contact.id, contact);
     } else {
-        await api.createContact(contact);
+        await contacts.createItem(contact);
     }
 
     form.resetForm();
     state.showContactForm = false;
-
-    updateList();
-})
+});
 
 const updateSort = (sortBy: keyof Contact) => {
-    if (state.sortBy === sortBy) {
-        state.sortOrder = state.sortOrder === 'asc' ? 'desc' : 'asc';
+    if (contacts.sortBy === sortBy) {
+        contacts.sortOrder = contacts.sortOrder === 'asc' ? 'desc' : 'asc';
     } else {
-        state.sortBy = sortBy;
-        state.sortOrder = 'desc';
+        contacts.sortBy = sortBy;
+        contacts.sortOrder = 'desc';
     }
-    updateList();
+    contacts.updateItems();
 };
-
-const updateList = async (search?: string) => {
-    const contacts = await api.listContacts({
-        search: search || '',
-        sortBy: state.sortBy,
-        sortOrder: state.sortOrder,
-    })
-    state.contacts = contacts
-}
 
 const handleContactSearch = (event: KeyboardEvent) => {
     const value = (event.target as HTMLInputElement).value;
-    updateList(value);
+    contacts.search = value;
+    contacts.updateItems();
 };
 
 const showContactForm = (contact?: Contact) => {
-    state.currentContact = contact || null;
+    state.contact = contact || null;
     state.showContactForm = true;
+    state.showContactInfo = false;
     form.resetForm();
 
     if(contact) {
         form.setValues(contact);
     }
-}
+};
 
 const showContactDeleteDialog = (contact: Contact) => {
-    state.currentContact = contact;
+    state.contact = contact;
     state.showDeleteContactDialog = true;
-}
+    state.showContactInfo = false;
+};
 
 const handleContactDelete = async () => {
-    const contact = state.currentContact;
+    const contact = state.contact;
 
     if (contact) {
-        await api.deleteContact(contact.id);
-        await updateList();
+        contacts.deleteItem(contact.id);
         state.showDeleteContactDialog = false;
     }
-}
+};
 
 const showContactInfo = (contact: Contact) => {
-    state.currentContact = contact;
+    state.contact = contact;
     state.showContactInfo = true;
-    console.log(123);
-}
+};
 
-onMounted(async () => {
-    await updateList()
-    state.mounted = true
+onMounted(() => {
+    contacts.updateItems();
 });
+
 </script>
 
 <template>
@@ -147,25 +137,32 @@ onMounted(async () => {
                     <th>
                         <span @click="updateSort('name')" class="cursor-pointer unselectable-text">
                             Nome
-                            <Icon v-if="state.sortBy === 'name'" class="sort-icon" :icon="sortIcon"/>
+                            <Icon v-if="sortIconIsShown('name')" class="sort-icon" :icon="sortIcon"/>
                         </span>
                     </th>
                     <th>
                         <span @click="updateSort('email')" class="cursor-pointer unselectable-text">
                             Email
-                            <Icon v-if="state.sortBy === 'email'" class="sort-icon" :icon="sortIcon"/>
+                            <Icon v-if="sortIconIsShown('email')" class="sort-icon" :icon="sortIcon"/>
                         </span>
                     </th>
                     <th>
                         <span @click="updateSort('phone')" class="cursor-pointer unselectable-text">
                             Telefone
-                            <Icon v-if="state.sortBy === 'phone'" class="sort-icon" :icon="sortIcon"/>
+                            <Icon v-if="sortIconIsShown('phone')" class="sort-icon" :icon="sortIcon"/>
                         </span>
                     </th>
                     <th></th>
                 </thead>
                 <tbody>
-                    <tr v-if="state.mounted && state.contacts.length === 0">
+                    <tr v-if="contacts.loading">
+                        <td colspan="4">
+                            <div class="empty-table">
+                                <Loading />
+                            </div>
+                        </td>
+                    </tr>
+                    <tr v-if="!contacts.loading && contacts.items.length === 0">
                         <td colspan="4">
                             <div class="empty-table">
                                 <img class="img" :src="emptyBook" alt="Imagem de livro aberto">
@@ -174,7 +171,7 @@ onMounted(async () => {
                             </div>
                         </td>
                     </tr>
-                    <tr @click="showContactInfo(contact)" class="body-2" tabindex="0" v-for="contact in state.contacts">
+                    <tr v-if="!contacts.loading" @click="showContactInfo(contact)" class="body-2" tabindex="0" v-for="contact in contacts.items">
                         <td>
                             <div class="table-avatar">
                                 <Avatar
@@ -202,37 +199,37 @@ onMounted(async () => {
         </div>
     </section>
 
-    <Modal size="large" v-if="state.showContactInfo && state.currentContact">
+    <Modal size="large" v-if="state.showContactInfo && state.contact">
         <template #header>
             <div class="contact-info-header">
                 <h2 class="headline-2">
                     <Avatar
-                        :image-src="state.currentContact.avatar || ''"
-                        :name="state.currentContact.name"
+                        :image-src="state.contact.avatar || ''"
+                        :name="state.contact.name"
                     />
-                    {{ state.currentContact.name }}
+                    {{ state.contact.name }}
                 </h2>
                 <div class="contact-info-buttons">
-                    <IconButton icon="delete"/>
-                    <IconButton icon="edit"/>
-                    <IconButton icon="close"/>
+                    <IconButton @click="showContactDeleteDialog(state.contact as Contact)" icon="delete"/>
+                    <IconButton @click="showContactForm(state.contact as Contact)" icon="edit"/>
+                    <IconButton @click="state.showContactInfo = false" icon="close"/>
                 </div>
             </div>
         </template>
 
         <table class="contact-info-table">
-            <tr><td class="caption text-right text-mine-shaft-100">Email   </td><td class="body-2">{{ state.currentContact.email || '-' }}</td></tr>
-            <tr><td class="caption text-right text-mine-shaft-100">Celular </td><td class="body-2">{{ state.currentContact.phone || '-' }}</td></tr>
-            <tr><td class="caption text-right text-mine-shaft-100">Telefone</td><td class="body-2">{{ state.currentContact.landline || '-' }}</td></tr>
-            <tr><td class="caption text-right text-mine-shaft-100">Endereço</td><td class="body-2">{{ state.currentContact.address || '-' }}</td></tr>
-            <tr><td class="caption text-right text-mine-shaft-100">Bairro  </td><td class="body-2">{{ state.currentContact.district || '-' }}</td></tr>
-            <tr><td class="caption text-right text-mine-shaft-100">Estado  </td><td class="body-2">{{ state.currentContact.state || '-' }}</td></tr>
+            <tr><td class="caption text-right text-mine-shaft-100">Email   </td><td class="body-2">{{ state.contact.email || '-' }}</td></tr>
+            <tr><td class="caption text-right text-mine-shaft-100">Celular </td><td class="body-2">{{ state.contact.phone || '-' }}</td></tr>
+            <tr><td class="caption text-right text-mine-shaft-100">Telefone</td><td class="body-2">{{ state.contact.landline || '-' }}</td></tr>
+            <tr><td class="caption text-right text-mine-shaft-100">Endereço</td><td class="body-2">{{ state.contact.address || '-' }}</td></tr>
+            <tr><td class="caption text-right text-mine-shaft-100">Bairro  </td><td class="body-2">{{ state.contact.district || '-' }}</td></tr>
+            <tr><td class="caption text-right text-mine-shaft-100">Estado  </td><td class="body-2">{{ state.contact.state || '-' }}</td></tr>
         </table>
     </Modal>
 
     <Modal size="large" v-if="state.showContactForm">
         <template #header>
-            {{ state.currentContact ? 'Editar contato' : 'Adicionar contato' }}
+            {{ state.contact ? 'Editar contato' : 'Adicionar contato' }}
         </template>
 
         <form id="contact-form" @submit.prevent="handleFormSubmit()" class="form">
@@ -278,7 +275,6 @@ onMounted(async () => {
 </template>
 
 <style scoped lang="scss">
-@import '../styles/colors';
 
 .table-avatar {
 	display: flex;
