@@ -3,7 +3,7 @@ import { defineStore } from 'pinia';
 import { backend } from '../services/backend';
 import { Contact } from '../types/contact';
 
-import { useAuthStore } from './auth.store';
+import { useAuthStore } from './';
 
 export interface ContactStoreState {
     items: Contact[];
@@ -17,7 +17,7 @@ export const useContactsStore = defineStore({
     id: 'users',
     state: (): ContactStoreState => {
         const auth = useAuthStore();
-        backend.defaults.headers.common ['Authorization'] = `Bearer ${auth.apitoken}`;
+        backend.defaults.headers.common['Authorization'] = `Bearer ${auth.apitoken}`;
 
         return {
             items: [],

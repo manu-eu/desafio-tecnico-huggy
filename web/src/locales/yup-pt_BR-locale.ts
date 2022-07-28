@@ -2,21 +2,21 @@ import { LocaleObject } from 'yup/lib/locale'
 
 const locale: LocaleObject = {
     mixed: {
-        default: '${label} é inválido',
-        required: '${label} é um campo obrigatório',
-        oneOf: '${label} deve ser um dos seguintes valores: ${values}',
-        notOneOf: '${label} não pode ser um dos seguintes valores: ${values}',
+        default: 'O campo ${label} é inválido',
+        required: 'O campo ${label} é obrigatório',
+        oneOf: 'O campo ${label} deve ser preenchido com um dos seguintes valores: ${values}',
+        notOneOf: 'O campo ${label} não pode ser preenchido com os valore: ${values}',
     },
     string: {
-        length: '${label} deve ter exatamente ${length} caracteres',
-        min: '${label} deve ter pelo menos ${min} caracteres',
-        max: '${label} deve ter no máximo ${max} caracteres',
-        email: '${label} tem o formato de e-mail inválido',
-        url: '${label} deve ter um formato de URL válida',
-        trim: '${label} não deve conter espaços no início ou no fim.',
-        lowercase: '${label} deve estar em maiúsculo',
-        uppercase: '${label} deve estar em minúsculo',
-        matches: '${label} não corresponde ao formato',
+        length: 'O campo ${label} deve ter exatamente ${length} caracteres',
+        min: 'O campo ${label} deve ter pelo menos ${min} caracteres',
+        max: 'O campo ${label} deve ter no máximo ${max} caracteres',
+        email: 'O campo ${label} deve ser preenchido com um e-mail válido',
+        url: 'O campo ${label} deve ser preenchido com uma URL válida',
+        trim: 'O campo ${label} não deve conter espaços no início ou no fim.',
+        lowercase: 'O campo ${label} deve estar em maiúsculo',
+        uppercase: 'O campo ${label} deve estar em minúsculo',
+        matches: 'O campo ${label} deve ser preenchido com um formato válido',
     },
     number: {
         min: 'deve ser no mínimo ${min}',
@@ -28,11 +28,11 @@ const locale: LocaleObject = {
         negative: 'deve ser um número negativo',
         integer: 'deve ser um número inteiro',
     },
-        date: {
+    date: {
         min: 'deve ser maior que a data ${min}',
         max: 'deve ser menor que a data ${max}',
     },
-        array: {
+    array: {
         min: 'deve ter no mínimo ${min} itens',
         max: 'deve ter no máximo ${max} itens',
     },

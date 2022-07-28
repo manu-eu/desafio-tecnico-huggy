@@ -17,8 +17,8 @@ const routes: Array<RouteRecordRaw> = [
     },
     {
         path: '/:catchAll(.*)',
-        redirect: to => {
-            return { name: 'Login' }
+        redirect: (to) => {
+            return { name: 'Login' };
         },
     }
 ]
@@ -26,7 +26,7 @@ const routes: Array<RouteRecordRaw> = [
 const router = createRouter({
     history: createWebHistory(),
     routes: routes
-})
+});
 
 const publicPages = ['Login'];
 

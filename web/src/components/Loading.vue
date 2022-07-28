@@ -1,3 +1,5 @@
+<script setup lang="ts"></script>
+
 <template>
 	<div class="lds-ellipsis">
 		<div></div>
@@ -6,8 +8,6 @@
 		<div></div>
 	</div>
 </template>
-
-<script setup lang="ts"></script>
 
 <style scoped lang="scss">
 @import "../styles/colors";
