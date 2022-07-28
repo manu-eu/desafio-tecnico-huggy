@@ -49,9 +49,9 @@ const schema = yup.object({
     email:    yup.string().required().email().label('Email'),
     phone:    yup.string().required().matches(phoneNumberRegex).label('Celular'),
     landline: yup.string().nullable().matches(landLineNumberRegex).label('Telefone'),
-    address:  yup.string().nullable().label('Endereço'),
-    district: yup.string().nullable().label('Bairro'),
-    state:    yup.string().nullable().label('Estado'),
+    address:  yup.string().nullable().max(120).label('Endereço'),
+    district: yup.string().nullable().max(20).label('Bairro'),
+    state:    yup.string().nullable().max(20).label('Estado'),
 })
 
 const form = useForm<Contact>({
