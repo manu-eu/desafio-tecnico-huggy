@@ -1,13 +1,11 @@
 <template>
     <Teleport to="body">
         <div class="modal">
-            <div class="modal-content" :class="[sizeClass]">
-                <div v-if="hasHeader" class="modal-content-header">
+            <div class="modal-content overflow-y hide-scrollbar" :class="[sizeClass]">
+                <div v-if="hasHeader" class="modal-content-header headline-2">
                     <slot name="header"></slot>
                 </div>
-                <div v-if="hasBody" class="modal-content-body">
-                    <slot></slot>
-                </div>
+                <slot></slot>
                 <div v-if="hasFooter" class="modal-content-footer">
                     <slot name="footer"></slot>
                 </div>

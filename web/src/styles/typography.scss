@@ -68,3 +68,15 @@
     word-spacing: 0.4px;
     @include case-sentence;
 }
+
+.text-left {
+    text-align: left;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.text-right {
+    text-align: right;
+}

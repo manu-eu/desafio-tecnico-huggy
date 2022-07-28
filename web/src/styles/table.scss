@@ -13,22 +13,15 @@
 
         th {
             text-align: start;
+            white-space: nowrap;
             border-bottom: 1px solid $mine-shaft-30;
             position: relative;
-            padding: 0.875rem 0;
-
-            &:first-child {
-                padding-left: 1rem;
-            }
-
-            &:last-child {
-                padding-right: 1rem;
-            }
+            padding: 0.875rem 1rem;
 
             .sort-icon {
                 height: 1rem;
                 width: 1rem;
-                margin-right: 0.25rem;
+                margin-left: 0.25rem;
 
                 position: absolute;
                 top: 50%;
@@ -45,7 +38,10 @@
     tbody tr {
         transition: background-color 200ms ease-out;
         outline: none;
-        cursor: pointer;
+
+        &[tabindex="0"] {
+            cursor: pointer;
+        }
 
         &[tabindex="0"]:focus, &[tabindex="0"]:focus-within  {
             background: $mine-shaft-10;
@@ -59,27 +55,27 @@
         }
 
         td {
-            padding: 0.5rem 0;
+            padding: 0.5rem 1rem;
+            white-space: nowrap;
 
             &:first-child {
-                padding-left: 1rem;
                 border-radius: 0.5rem 0 0 0.5rem;
-
             }
 
             &:last-child {
-                padding-right: 1rem;
                 border-radius: 0 0.5rem 0.5rem 0;
             }
         }
 
         .table-actions {
             display: flex;
+            gap: 0.5rem;
             align-items: center;
             justify-content: flex-start;
             flex-direction: row-reverse;
 
             .button.icon-button {
+                padding: 0;
                 transition: transform 100ms ease-out, opacity 100ms ease-out;
                 opacity: 0;
 
@@ -88,7 +84,7 @@
                 }
 
                 &:focus .icon {
-                    fill: $mine-shaft-700;
+                    fill: $mine-shaft-100;
                 }
 
                 @for $i from 1 through 10 {
@@ -97,6 +93,23 @@
                         transform: translateX(#{(($i - 1) * 8) + 2}px);
                     }
                 }
+            }
+        }
+
+        .empty-table {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            padding: 4rem 0;
+            .img {
+                margin-bottom: 1rem;
+                height: 200px;
+                width: 200px;
+            }
+
+            .subtitle-1 {
+                margin-bottom: 1.5rem;
             }
         }
     }

@@ -5,13 +5,11 @@
 
     .form-row {
         display: flex;
+        flex-wrap: wrap;
+        gap: 1.5rem;
 
         &:not(:last-child) {
             margin-bottom: 1.5rem;
-        }
-
-        fieldset ~ fieldset {
-            margin-left: 1.5rem;
         }
     }
 }
