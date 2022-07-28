@@ -134,6 +134,9 @@ return [
     */
 
     'custom' => [
+        'phone_number' => 'O campo :attribute deve ser um número de telefone válido.',
+        'landline_number' => 'O campo :attribute deve ser um número de telefone fixo válido.',
+
         'attribute-name' => [
             'rule-name' => 'custom-message',
         ],

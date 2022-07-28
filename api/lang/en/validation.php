@@ -149,6 +149,9 @@ return [
     */
 
     'custom' => [
+        'phone_number' => 'The :attribute must be a valid phone number.',
+        'landline_number' => 'The :attribute must be a valid landline number.',
+
         'attribute-name' => [
             'rule-name' => 'custom-message',
         ],

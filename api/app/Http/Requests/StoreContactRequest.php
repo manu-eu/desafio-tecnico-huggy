@@ -2,6 +2,8 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\LandlineNumber;
+use App\Rules\PhoneNumber;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreContactRequest extends FormRequest
@@ -25,8 +27,13 @@ class StoreContactRequest extends FormRequest
     {
         return [
             'name' => 'required',
-            'email' => 'required',
-            'phone' => 'required',
+            'email' => 'required|email',
+            'phone' => ['required', new PhoneNumber],
+            'landline' => [new LandlineNumber],
+            'address' => 'max:120',
+            'district' => 'max:20',
+            'state' => 'max:20',
+            'avatar' => 'url',
         ];
     }
 }
