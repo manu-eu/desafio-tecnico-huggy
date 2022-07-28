@@ -12,7 +12,7 @@ class ContactController extends Controller
     {
         $search = request('search') ?? '';
         $orderBy = request('sortBy') ?? 'name';
-        $orderDir = request('sortDir') ?? 'asc';
+        $orderDir = request('sortOrder') ?? 'asc';
 
         $contacts = Contact::search($search)->get();
 
