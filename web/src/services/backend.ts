@@ -57,7 +57,7 @@ export default {
     },
     async createContact(contact: Contact): Promise<Contact> {
         return backend.post(`/contacts`, contact).then(resp => {
-            checkForStatusCode(resp.status, [200]);
+            checkForStatusCode(resp.status, [201]);
             return resp.data;
         });
     },
