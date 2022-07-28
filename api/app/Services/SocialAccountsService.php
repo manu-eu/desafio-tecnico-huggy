@@ -1,5 +1,6 @@
 <?php
 namespace App\Services;
+
 use App\Models\User;
 use App\Models\SocialAccount;
 use Laravel\Socialite\Two\User as ProviderUser;
@@ -31,8 +32,7 @@ class SocialAccountsService
 
             if (! $user) {
                 $user = User::create([
-                    'first_name' => $providerUser->getName(),
-                    'last_name' => $providerUser->getName(),
+                    'name' => $providerUser->getName(),
                     'email' => $providerUser->getEmail(),
                 ]);
             }
