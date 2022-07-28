@@ -1,0 +1,351 @@
+{
+	"info": {
+		"_postman_id": "8ebb7866-f2b5-45aa-8f17-28f646b6959b",
+		"name": "api-huggy",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "22374522"
+	},
+	"item": [
+		{
+			"name": "oauth token",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"accept": true,
+					"content-type": true
+				}
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text",
+						"disabled": true
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "X-Requested-With",
+						"value": "XMLHttpRequest",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"grant_type\": \"social\",\r\n    \"client_id\": \"\",\r\n    \"client_secret\": \"\",\r\n    \"provider\": \"huggy\",\r\n    \"access_token\": \"\"\r\n}"
+				},
+				"url": {
+					"raw": "{{url-base}}/oauth/token",
+					"host": [
+						"{{url-base}}"
+					],
+					"path": [
+						"oauth",
+						"token"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "list contacts",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"accept-encoding": true,
+					"connection": true,
+					"accept": true
+				}
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIzIiwianRpIjoiZDcxOGQ0YzAzM2ExM2UwMWQ2ZDAxNWM1YmQ1MTAxY2E2ZTlhYmIzNjZiZDI4NWVkMDNhZDZjNTkyNDUyYjNhODFiYjJlOWQzZGVmZDQzNDQiLCJpYXQiOjE2NTkwMDA5NjEuNTg2NDM1LCJuYmYiOjE2NTkwMDA5NjEuNTg2NDQsImV4cCI6MTY5MDUzNjk2MS41NzA5NTMsInN1YiI6IjIiLCJzY29wZXMiOltdfQ.Z06oN_2LRuZ8tkyDimCLhMyMKFlpldLLuED8ksI7c6B9vsUayNGDLt-40DRZaHgsMBLVlAlATKEskXwG_FGR38jQOveiL977Dv6znk8dRyZogbeWaJtbACDJyr3x3wRx7dC7tdIQEtFYyr5wq4_186PSnefSbgJame-JrT0X1rFu_pHIcmHcGFdt3Z_CFrfDli86Rs8j9yb7t4YEgjLVoJ1WMMfTLznHfQgmmoQ2kLZ6CB6ziPUA20d77OTMqCW3Blz3j4COc5H5x4Hk45IILlCU440kPl1UO-Hsc_lAFuGhahgD-pffbR9FKxt7J5gYhOlLQqtUp8SC31WhEp1WTub14KANySqW58jeRv2_YkB6ZFAKs8bzhUrs-xfQW5IjHI3CIHep7bOUC_kVPZ9un2Ab_uhlOJCNS97gh1cci3Z0dUzDnaj8QIrbTWAB5pEkq9Vk5JSNnutjrCJkVEyepL7O2Hy6FDIRaPW30t-gE3vvvkUry9uOCIYtf3-17ig59XrGlEJD4_u4sAFYYVAA8CBzeKcf55QMTjmbX7XUQkrmaGKPPkm0tvSIECP5BJdJodhRG3HbKnwLVMDHVndL_aq0rdNJ6Kffz8labzyLDjdd1TT14iqXcnA-tIBJviHX9DYA2nCXoP9yH-oMO8dXh-diGm0E3aU6aJmVRBdpxpw",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": "necessário para o laravel não confundir com as rotas do escopo web",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": "necessário para o laravel não confundir com as rotas do escopo web",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{url-base}}/api/contacts",
+					"host": [
+						"{{url-base}}"
+					],
+					"path": [
+						"api",
+						"contacts"
+					],
+					"query": [
+						{
+							"key": "search",
+							"value": null,
+							"description": "palavra chave procurada entre os registros",
+							"disabled": true
+						},
+						{
+							"key": "sortBy",
+							"value": null,
+							"description": "campo utilizado para ordenação dos dados",
+							"disabled": true
+						},
+						{
+							"key": "sortOrder",
+							"value": null,
+							"description": "valor para ordenação dos dados (asc e desc)",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "show contact",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"accept": true
+				}
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": "necessário para o laravel não confundir com as rotas do escopo web",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": "necessário para o laravel não confundir com as rotas do escopo web",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{url-base}}/api/contacts/:id",
+					"host": [
+						"{{url-base}}"
+					],
+					"path": [
+						"api",
+						"contacts",
+						":id"
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "",
+							"description": "id do contato desejado"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "store contact",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"accept": true
+				}
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": "necessário para o laravel não confundir com as rotas do escopo web",
+						"type": "text"
+					},
+					{
+						"key": "X-Requested-With",
+						"value": "XMLHttpRequest",
+						"description": "necessário para o laravel não confundir com as rotas do escopo web",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\":     \"\",\r\n    \"email\":    \"\",\r\n    \"phone\":    \"\",\r\n    \"landline\": \"\",\r\n    \"address\":  \"\",\r\n    \"district\": \"\",\r\n    \"state\":    \"\",\r\n    \"avatar\":   \"\" \r\n}"
+				},
+				"url": {
+					"raw": "{{url-base}}/api/contacts",
+					"host": [
+						"{{url-base}}"
+					],
+					"path": [
+						"api",
+						"contacts"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "update contact",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"accept": true
+				}
+			},
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": "necessário para o laravel não confundir com as rotas do escopo web",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": "necessário para o laravel não confundir com as rotas do escopo web",
+						"type": "text"
+					},
+					{
+						"key": "X-Requested-With",
+						"value": "XMLHttpRequest",
+						"description": "necessário para o laravel não confundir com as rotas do escopo web",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\":     \"\",\r\n    \"email\":    \"\",\r\n    \"phone\":    \"\",\r\n    \"landline\": \"\",\r\n    \"address\":  \"\",\r\n    \"district\": \"\",\r\n    \"state\":    \"\",\r\n    \"avatar\":   \"\" \r\n}"
+				},
+				"url": {
+					"raw": "{{url-base}}/api/contacts/:id",
+					"host": [
+						"{{url-base}}"
+					],
+					"path": [
+						"api",
+						"contacts",
+						":id"
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": ""
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete contact",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"accept": true
+				}
+			},
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": "necessário para o laravel não confundir com as rotas do escopo web",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": "necessário para o laravel não confundir com as rotas do escopo web",
+						"type": "text"
+					},
+					{
+						"key": "X-Requested-With",
+						"value": "XMLHttpRequest",
+						"description": "necessário para o laravel não confundir com as rotas do escopo web",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{url-base}}/api/contacts/:id",
+					"host": [
+						"{{url-base}}"
+					],
+					"path": [
+						"api",
+						"contacts",
+						":id"
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": null
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIzIiwianRpIjoiZDcxOGQ0YzAzM2ExM2UwMWQ2ZDAxNWM1YmQ1MTAxY2E2ZTlhYmIzNjZiZDI4NWVkMDNhZDZjNTkyNDUyYjNhODFiYjJlOWQzZGVmZDQzNDQiLCJpYXQiOjE2NTkwMDA5NjEuNTg2NDM1LCJuYmYiOjE2NTkwMDA5NjEuNTg2NDQsImV4cCI6MTY5MDUzNjk2MS41NzA5NTMsInN1YiI6IjIiLCJzY29wZXMiOltdfQ.Z06oN_2LRuZ8tkyDimCLhMyMKFlpldLLuED8ksI7c6B9vsUayNGDLt-40DRZaHgsMBLVlAlATKEskXwG_FGR38jQOveiL977Dv6znk8dRyZogbeWaJtbACDJyr3x3wRx7dC7tdIQEtFYyr5wq4_186PSnefSbgJame-JrT0X1rFu_pHIcmHcGFdt3Z_CFrfDli86Rs8j9yb7t4YEgjLVoJ1WMMfTLznHfQgmmoQ2kLZ6CB6ziPUA20d77OTMqCW3Blz3j4COc5H5x4Hk45IILlCU440kPl1UO-Hsc_lAFuGhahgD-pffbR9FKxt7J5gYhOlLQqtUp8SC31WhEp1WTub14KANySqW58jeRv2_YkB6ZFAKs8bzhUrs-xfQW5IjHI3CIHep7bOUC_kVPZ9un2Ab_uhlOJCNS97gh1cci3Z0dUzDnaj8QIrbTWAB5pEkq9Vk5JSNnutjrCJkVEyepL7O2Hy6FDIRaPW30t-gE3vvvkUry9uOCIYtf3-17ig59XrGlEJD4_u4sAFYYVAA8CBzeKcf55QMTjmbX7XUQkrmaGKPPkm0tvSIECP5BJdJodhRG3HbKnwLVMDHVndL_aq0rdNJ6Kffz8labzyLDjdd1TT14iqXcnA-tIBJviHX9DYA2nCXoP9yH-oMO8dXh-diGm0E3aU6aJmVRBdpxpw",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "url-base",
+			"value": "http://localhost:8000",
+			"type": "string"
+		},
+		{
+			"key": "huggy-auth-url",
+			"value": "https://auth.huggy.app/oauth/authorize",
+			"type": "string"
+		}
+	]
+}
