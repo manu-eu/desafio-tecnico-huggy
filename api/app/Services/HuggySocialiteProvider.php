@@ -32,7 +32,9 @@ class HuggySocialiteProvider extends AbstractProvider
         $responseContents = json_decode($response->getBody(), true);
         $bearerToken = $responseContents ['access_token'];
 
-        $response = $this->getHttpClient()->get('https://api.huggy.app/v3/agents/profile', [
+        $huggyApiUrl = config('services.huggy.api_url');
+
+        $response = $this->getHttpClient()->get($huggyApiUrl . '/agents/profile', [
             'headers' => [
                 'cache-control' => 'no-cache',
                 'Authorization' => 'Bearer ' . $bearerToken,
