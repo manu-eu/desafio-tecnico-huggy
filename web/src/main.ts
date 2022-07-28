@@ -2,7 +2,7 @@ import { createApp } from 'vue'
 import * as yup from 'yup'
 
 import router from './router'
-import locale from './langs/validations'
+import locale from './locales/yup-pt_BR-locale'
 
 import App from './App.vue'
 
