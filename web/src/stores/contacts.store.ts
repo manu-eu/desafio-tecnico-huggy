@@ -28,6 +28,12 @@ export const useContactsStore = defineStore({
         };
     },
     actions: {
+        resetFilters() {
+            this.search = '';
+            this.sortBy = 'name';
+            this.sortOrder = 'desc';
+            return this;
+        },
         async updateItems(): Promise<Contact[]> {
             this.loading = true;
 
@@ -50,6 +56,7 @@ export const useContactsStore = defineStore({
         },
         async createItem(contact: Contact): Promise<Contact> {
             this.loading = true;
+            this.resetFilters();
             return backend.post('api/contacts', contact).then(resp => {
                 this.updateItems();
                 return resp.data;
@@ -57,6 +64,7 @@ export const useContactsStore = defineStore({
         },
         async updateItem(id: number, contact: Contact): Promise<Contact> {
             this.loading = true;
+            this.resetFilters();
             return backend.put(`api/contacts/${id}`, contact).then(resp => {
                 this.updateItems();
                 return resp.data;
@@ -64,6 +72,7 @@ export const useContactsStore = defineStore({
         },
         async deleteItem(id: number): Promise<void> {
             this.loading = true;
+            this.resetFilters();
             return backend.delete(`api/contacts/${id}`).then(() => {
                 this.updateItems();
             });

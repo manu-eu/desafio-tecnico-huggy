@@ -20,7 +20,11 @@ const hasLabel = computed(() => !!props.label && props.label.length > 0);
 const hasIcon = computed(() => !!props.icon && props.icon.length > 0);
 
 const nameRef = toRef(props, "name");
-const { errorMessage, value } = useField(nameRef);
+const { errorMessage, value } = useField(nameRef, '', {
+	validateOnMount: false,
+	validateOnValueUpdate: true,
+	initialValue: props.value,
+});
 </script>
 
 <template>

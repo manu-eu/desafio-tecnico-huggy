@@ -62,14 +62,12 @@ const form = useForm<Contact>({
 	validationSchema: schema,
 });
 
-const handleFormSubmit = form.handleSubmit(async (contact) => {
+const handleFormSubmit = form.handleSubmit((contact) => {
 	if (contact.id) {
-		await contacts.updateItem(contact.id, contact);
+		contacts.updateItem(contact.id, contact);
 	} else {
-		await contacts.createItem(contact);
+		contacts.createItem(contact);
 	}
-
-	form.resetForm();
 	state.showContactForm = false;
 });
 
@@ -93,11 +91,19 @@ const showContactForm = (contact?: Contact) => {
 	state.contact = contact || null;
 	state.showContactForm = true;
 	state.showContactInfo = false;
+
 	form.resetForm();
 
-	if (contact) {
-		form.setValues(contact);
-	}
+	form.setValues(contact || {
+		id: null,
+		name: "",
+		email: "",
+		phone: "",
+		landline: "",
+		address: "",
+		district: "",
+		state: "",
+	});
 };
 
 const showContactDeleteDialog = (contact: Contact) => {
@@ -106,7 +112,7 @@ const showContactDeleteDialog = (contact: Contact) => {
 	state.showContactInfo = false;
 };
 
-const handleContactDelete = async () => {
+const handleContactDelete = () => {
 	const contact = state.contact;
 
 	if (contact) {
@@ -120,9 +126,7 @@ const showContactInfo = (contact: Contact) => {
 	state.showContactInfo = true;
 };
 
-onMounted(() => {
-	contacts.updateItems();
-});
+onMounted(() => contacts.resetFilters().updateItems());
 </script>
 
 <template>
