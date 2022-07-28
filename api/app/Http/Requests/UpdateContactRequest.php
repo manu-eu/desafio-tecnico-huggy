@@ -29,11 +29,11 @@ class UpdateContactRequest extends FormRequest
             'name' => 'required',
             'email' => 'required|email',
             'phone' => ['required', new PhoneNumber],
-            'landline' => [new LandlineNumber],
-            'address' => 'max:120',
-            'district' => 'max:20',
-            'state' => 'max:20',
-            'avatar' => 'url',
+            'landline' => ['sometimes', 'nullable', new LandlineNumber],
+            'address' => 'sometimes|nullable|max:120',
+            'district' => 'sometimes|nullable|max:20',
+            'state' => 'sometimes|nullable|max:20',
+            'avatar' => 'sometimes|nullable|url',
         ];
     }
 }
